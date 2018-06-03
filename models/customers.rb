@@ -51,6 +51,15 @@ class Customer
     return Film.map_items(films)
   end
 
+  def tickets
+    sql = "SELECT tickets.* FROM tickets
+    WHERE customer_id = $1"
+    values = [@id]
+    results = SqlRunner.run(sql, values)
+    return results.map { |result| Ticket.new(result)}
+  end
+
+
   def self.map_items(stuff)
     result = stuff.map{|customer| Customer.new(customer)}
     return result
